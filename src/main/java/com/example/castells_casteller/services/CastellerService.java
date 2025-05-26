@@ -14,7 +14,7 @@ public class CastellerService {
     @Autowired
     CastellerRepository castellerRepository;
 
-    Casteller findCastellerById(Long id){
+   public Casteller findCastellerById(Long id){
         Optional<Casteller> foundCasteller = castellerRepository.findById(id);
         if (foundCasteller.isPresent()){
             return foundCasteller.get();
