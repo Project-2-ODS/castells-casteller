@@ -1,4 +1,4 @@
-package com.example.castells_casteller;
+package com.example.castells_casteller.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
