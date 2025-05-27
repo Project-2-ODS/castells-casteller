@@ -29,13 +29,13 @@ public class CastellerService {
         if (foundCasteller.isPresent()){
             return foundCasteller.get();
         }else{
-            throw new CastellerNotFoundException("Casteller no encontrado");
+            throw new CastellerNotFoundException("Casteller no encontrado.");
         }
     }
 
-    //UPDATE
+    //UPDATE EMAIL OR DIADA ID
     public Casteller updateCastellerEmailOrDiadaId(Long id, CastellerDTO castellerDTO){
-        Casteller existingCasteller = castellerRepository.findById(id).orElseThrow(()->new CastellerNotFoundException("Casteller con id " +id+" no encontrado"));
+        Casteller existingCasteller = castellerRepository.findById(id).orElseThrow(()->new CastellerNotFoundException("Casteller con id " +id+" no encontrado."));
         if(castellerDTO.getEmail()!= null){
             existingCasteller.setEmail(castellerDTO.getEmail());
         }
@@ -44,6 +44,7 @@ public class CastellerService {
         }
         return castellerRepository.save(existingCasteller);
     }
+    //UPDATE CASTELLER ALL INFO
     public Casteller updateCastellerAllInfo(Long id, Casteller casteller){
         Casteller existingCasteller = castellerRepository.findById(id).orElseThrow(()->new CastellerNotFoundException("Casteller con id " +id+" no encontrado"));
         existingCasteller.setName(casteller.getName());
@@ -51,6 +52,7 @@ public class CastellerService {
         existingCasteller.setDiadaId(casteller.getDiadaId());
         return castellerRepository.save(existingCasteller);
     }
+    //DELETE
     public Casteller deleteCasteller(Long id){
 
         Casteller existingCasteller = castellerRepository.findById(id).orElseThrow(()->new CastellerNotFoundException("Casteller con id " +id+" no encontrado"));

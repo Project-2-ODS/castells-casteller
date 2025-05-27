@@ -61,6 +61,7 @@ public class CastellerController {
         }
 
     }
+    //DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCasteller(@PathVariable Long id){
         try {
