@@ -65,7 +65,7 @@ public class CastellerController {
     public ResponseEntity<?> deleteCasteller(@PathVariable Long id){
         try {
             Casteller existingCasteller = castellerService.deleteCasteller(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build();//TODO: en el body poner "Casteller eliminado"
         }catch (CastellerNotFoundException exception){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(exception.getMessage());
