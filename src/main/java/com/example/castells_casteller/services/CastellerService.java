@@ -40,7 +40,7 @@ public class CastellerService {
             Casteller savedCasteller = existingCasteller.get();
             savedCasteller.setEmail(castellerDTO.getEmail());
             savedCasteller.setDiadaId(castellerDTO.getDiadaId());
-            return castellerRepository.save(savedCasteller)
+            return castellerRepository.save(savedCasteller);
         } else {
             throw new CastellerNotFoundException("Casteller con id " + id + "no encontrado");
         }
