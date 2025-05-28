@@ -1,7 +1,9 @@
 package com.example.castells_casteller.controllers;
 
 import com.example.castells_casteller.DTOs.CastellerDTO;
+import com.example.castells_casteller.DTOs.DiadaFeignDTO;
 import com.example.castells_casteller.expeptions.CastellerNotFoundException;
+import com.example.castells_casteller.feigns.DiadaFeignClient;
 import com.example.castells_casteller.models.Casteller;
 import com.example.castells_casteller.services.CastellerService;
 import jakarta.validation.Valid;
@@ -10,11 +12,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/casteller")
 public class CastellerController {
     @Autowired
     CastellerService castellerService;
+    @Autowired
+    DiadaFeignClient diadaFeignClient;
 
     //CREATE
     @PostMapping
@@ -29,7 +36,12 @@ public class CastellerController {
 
        try{
            Casteller foundCasteller = castellerService.findCastellerById(id);
-           return new ResponseEntity<>(foundCasteller, HttpStatus.OK);
+           Map<String, Object> response = new HashMap<>();
+           DiadaFeignDTO foundDiada = diadaFeignClient.getDiadaById(foundCasteller.getDiadaId());
+           response.put("Casteller", foundCasteller);
+           response.put("Diada", foundDiada);
+
+           return new ResponseEntity<>(response, HttpStatus.OK);
        }catch (CastellerNotFoundException exception){
            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
        }
