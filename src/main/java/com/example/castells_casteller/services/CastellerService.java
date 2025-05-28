@@ -29,7 +29,7 @@ public class CastellerService {
         if (foundCasteller.isPresent()){
             return foundCasteller.get();
         }else{
-            throw new CastellerNotFoundException("Casteller no encontrado.");
+            throw new CastellerNotFoundException("Casteller con id " + id + "no encontrado");
         }
     }
 
