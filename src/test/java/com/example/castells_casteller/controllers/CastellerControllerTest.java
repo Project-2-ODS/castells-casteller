@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -33,8 +33,18 @@ public class CastellerControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+
+    private Casteller casteller;
+
     @BeforeEach
-    public void setUp(){
+    public void SetUp(){
+        casteller = new Casteller();
+        casteller.setName("Test with MockMVC");
+        casteller.setEmail("test@testing.eu");
+        casteller.setDiadaId(1L);
+        System.out.println("USUARIO DEL TEST: " +casteller);
+        castellerRepository.save(casteller);
+
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     @AfterEach
@@ -48,7 +58,6 @@ public class CastellerControllerTest {
 
     @Test
     public void createCasteller() throws Exception {
-        Casteller casteller = new Casteller("Test with MockMVC", "test@mock.mvc", 1L);
         String castellerJSON = objectMapper.writeValueAsString(casteller);
 
         MvcResult result = mockMvc.perform(post("/api/casteller")
@@ -57,6 +66,29 @@ public class CastellerControllerTest {
         ).andExpect(status().isCreated()).andReturn();
         String stringResponse = result.getResponse().getContentAsString();
         assertTrue(stringResponse.contains("Test with MockMVC"));
+
+    }
+
+    @Test
+    public void updateCasteller() throws Exception{
+        String castellerJSON = objectMapper.writeValueAsString(casteller);
+
+        MvcResult result = mockMvc.perform(put("/api/casteller/"+casteller.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(castellerJSON)
+        ).andExpect(status().isOk()).andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("Test with MockMVC"));
+    }
+
+    @Test
+    public void deleteCasteller() throws Exception {
+        String castellerJSON = objectMapper.writeValueAsString(casteller);
+
+        MvcResult result = mockMvc.perform(delete("/api/casteller/"+casteller.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(castellerJSON)
+        ).andExpect(status().isNoContent()).andReturn();
+        assertFalse(result.getResponse().getContentAsString().contains("Test with MockMVC"));
 
     }
 }
