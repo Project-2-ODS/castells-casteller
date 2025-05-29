@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CastellerRepository extends JpaRepository<Casteller, Long> {
+    Casteller findByName(String name);
 }
